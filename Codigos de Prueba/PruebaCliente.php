@@ -4,6 +4,12 @@ include_once "../Clases/Dvd.php";
 include_once "../Clases/Juego.php";
 include_once "../Clases/Cliente.php";
 
+//importamos el namespace
+use Dwes\ProyectoVideoclub\CintaVideo;
+use Dwes\ProyectoVideoclub\Dvd;
+use Dwes\ProyectoVideoclub\Juego;
+use Dwes\ProyectoVideoclub\Cliente; 
+
 //instanciamos un par de objetos cliente
 $cliente1 = new Cliente("Bruce Wayne", 23);
 $cliente2 = new Cliente("Clark Kent", 33);
@@ -25,16 +31,22 @@ $cliente1->alquilar($soporte3);
 
 //voy a intentar alquilar de nuevo un soporte que ya tiene alquilado
 $cliente1->alquilar($soporte1);
+
 //el cliente tiene 3 soportes en alquiler como máximo
 //este soporte no lo va a poder alquilar
 $cliente1->alquilar($soporte4);
+
 //este soporte no lo tiene alquilado
 $cliente1->devolver(4);
+
 //devuelvo un soporte que sí que tiene alquilado
 $cliente1->devolver(2);
+
 //alquilo otro soporte
 $cliente1->alquilar($soporte4);
+
 //listo los elementos alquilados
 $cliente1->listaAlquileres();
+
 //este cliente no tiene alquileres
 $cliente2->alquilar($soporte2);

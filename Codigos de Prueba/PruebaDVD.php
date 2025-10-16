@@ -2,6 +2,9 @@
 // Incluimos la clase Dvd
 include "../Clases/Dvd.php";
 
+// Importamos el namespace
+use Dwes\ProyectoVideoclub\Dvd;
+
 // Creamos un objeto Dvd con título, número, precio, idiomas y formato de pantalla
 $miDvd = new Dvd("Origen", 24, 15, "es,en,fr", "16:9"); 
 

@@ -4,6 +4,9 @@
 // Incluimos la clase Soporte
 include "../Clases/Soporte.php";
 
+// Importamos el namespace
+use Dwes\ProyectoVideoclub\Soporte;
+
 // Creamos un objeto Soporte con título, número y precio
 $soporte1 = new Soporte("Tenet", 22, 3); 
 

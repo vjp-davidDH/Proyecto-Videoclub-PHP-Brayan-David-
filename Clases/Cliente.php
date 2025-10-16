@@ -1,4 +1,10 @@
 <?php
+namespace Dwes\ProyectoVideoclub;
+include_once("Soporte.php"); // Incluimos la clase Soporte para usarla en Cliente
+
+/**
+ * Cliente v0.331
+ */
 
 // Clase que representa un cliente del videoclub
 class Cliente
@@ -7,7 +13,7 @@ class Cliente
     public $nombre;                     // nombre del cliente
     private $numero;                    // número de cliente
     private $soporteAlquilados = [];    // array de soportes alquilados
-    private $numSoportesAlquilados;     // contador de soportes alquilados
+    private $numSoportesAlquilados = 0;     // contador de soportes alquilados
     private $maxAlquilerConcurrente;    // máximo de alquileres simultáneos permitidos
 
     // Constructor: inicializa nombre, número de cliente y límite de alquileres
@@ -25,7 +31,7 @@ class Cliente
     }
 
     // Establece un nuevo número de cliente
-    public function setNumero($numero): self
+    public function setNumero($numero): self // para encadenar llamadas 
     {
         $this->numero = $numero;
         return $this;
@@ -38,24 +44,26 @@ class Cliente
     }
 
     // Añade un soporte al array de alquileres
-    public function añadirSoporte(Soporte $soporte)
-    {
-        $this->soporteAlquilados[] = $soporte;
-    }
+    public function añadirSoporte(Soporte $soporte): self
+{
+    $this->soporteAlquilados[] = $soporte;
+    $this->numSoportesAlquilados++;
+    return $this; // permitimos el encadenamiento
+}
 
     // Comprueba si un soporte ya está alquilado por el cliente
     public function tieneAlquilado(Soporte $s): bool
     {
         foreach ($this->soporteAlquilados as $soporte) {
-            if ($s === $soporte) {
-                return true;
+            if ($s === $soporte) { 
+                return true; 
             }
         }
         return false;
     }
 
     // Alquila un soporte si no se supera el límite y no está ya alquilado
-    public function alquilar(Soporte $s): bool
+    public function alquilar(Soporte $s): self // para encadenamiento completo
     {
         if ($this->tieneAlquilado($s)) {
             echo "<br>El cliente ya tiene alquilado el soporte <strong>" . $s->getTitulo() . "</strong><br>";
@@ -66,11 +74,10 @@ class Cliente
             echo "<br>Titulo: " . $s->getTitulo();
             echo "<br>Precio: " . $s->getPrecio();
             echo "<br>" . $s->muestraResumen();
-            $this->añadirSoporte($s);
-            $this->numSoportesAlquilados++;
-            return true;
+            echo "<br>" . $s->muestraResumen();
+            $this->añadirSoporte($s); // esto incrementa el contador
         }
-        return false;
+        return $this;
     }
 
     // Devuelve un soporte según su índice en el array
@@ -89,7 +96,7 @@ class Cliente
     }
 
     // Lista todos los soportes alquilados por el cliente
-    public function listaAlquileres(): void
+    public function listaAlquileres(): self
     {
         if ($this->numSoportesAlquilados > 0) {
             echo "<br><strong>El cliente tiene " . $this->numSoportesAlquilados . " soportes alquilados</strong><br>";
@@ -98,10 +105,13 @@ class Cliente
                 echo "<br>Precio: " . $s->getPrecio();
                 echo "<br>" . $s->muestraResumen() . "<br>";
             }
+        } else {
+            echo "<br>Este cliente no tiene soportes alquilados.<br>";
         }
+        return $this;
     }
 
-    public function muestraResumen(): void
+    public function muestraResumen(): self
     {
         // Datos del cliente (solo una vez)
         echo "<br>Nombre: " . $this->nombre;
@@ -116,5 +126,8 @@ class Cliente
         } else {
             echo "<br>Este cliente no tiene soportes alquilados.";
         }
+
+        return $this;
     }
 }
+?>

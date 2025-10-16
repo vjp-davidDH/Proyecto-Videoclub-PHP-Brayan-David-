@@ -2,8 +2,11 @@
 // Incluimos la clase CintaVideo
 include "../Clases/CintaVideo.php";
 
-// Creamos un objeto CintaVideo con título, número, precio y duración
-$miCinta = new CintaVideo("Los cazafantasmas", 23, 3.5, 107); 
+// Importamos el namespace
+use Dwes\ProyectoVideoclub\CintaVideo;
+
+// Creamos un objeto CintaVideo con título, precio y duración
+$miCinta = new CintaVideo("Los cazafantasmas", 23, 107); 
 
 // Mostramos el título en negrita
 echo "<strong>" . $miCinta->titulo . "</strong>"; 

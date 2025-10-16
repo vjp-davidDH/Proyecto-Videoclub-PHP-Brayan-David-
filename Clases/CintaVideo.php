@@ -1,4 +1,9 @@
 <?php
+namespace Dwes\ProyectoVideoclub;
+
+/**
+ * CintaVideo v0.331
+ */
 
 // Incluimos la clase base Soporte
 include_once "Soporte.php";
@@ -15,9 +20,10 @@ class CintaVideo extends Soporte {
     }
 
     // Muestra un resumen de la cinta de vídeo
-    public function muestraResumen(): void {
+    public function muestraResumen(): self {
         echo "<br>Pelicula en VHS";  // indicamos que es una película en VHS
         echo "<br>Duracion: " . $this->duracion . " minutos"; // mostramos la duración
+        return $this; // permite encadenamiento
     }
 }
 ?>

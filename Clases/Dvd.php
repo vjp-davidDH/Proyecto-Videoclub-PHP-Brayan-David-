@@ -1,4 +1,9 @@
 <?php
+namespace Dwes\ProyectoVideoclub;
+
+/**
+ * Dvd v0.331
+ */
 
 // Incluimos la clase base Soporte
 include_once "Soporte.php";
@@ -17,7 +22,7 @@ class Dvd extends Soporte {
     }
 
     // Muestra un resumen del DVD
-    public function muestraResumen(): void {
+    public function muestraResumen(): self{
         echo "<br>Pelicula en DVD";        // indicamos que es un DVD
         echo "<br>Idiomas: " . $this->idiomas;            // mostramos idiomas
         echo "<br>Formato Pantalla: " . $this->formatoPantalla; // mostramos formato de pantalla

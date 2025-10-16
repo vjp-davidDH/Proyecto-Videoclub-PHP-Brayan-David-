@@ -1,4 +1,9 @@
 <?php
+namespace Dwes\ProyectoVideoclub;
+
+/**
+ * Clase Soporte v0.331
+ */
 
 // Incluimos la interfaz Resumible
 include_once "../Interfaces/Resumible.php";
@@ -41,7 +46,7 @@ abstract class Soporte implements Resumible{
     // Devuelve el precio con IVA incluido
     public function getPrecioConIva()
     {
-        return $this->precio + ($this->precio * self::IVA);
+        return $this->precio + ($this->precio * self::IVA); // accedemos a la constante IVA con self
     }
 
     // Muestra un resumen sencillo del soporte

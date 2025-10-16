@@ -2,6 +2,9 @@
 // Incluimos la clase Juego
 include "../Clases/Juego.php";
 
+// Importamos el namespace
+use Dwes\ProyectoVideoclub\Juego;
+
 // Creamos un objeto Juego con título, número, precio, plataforma, jugabilidad y multijugador
 $miJuego = new Juego("The Last of Us Part II", 26, 49.99, "PS4", 1, 1); 
 

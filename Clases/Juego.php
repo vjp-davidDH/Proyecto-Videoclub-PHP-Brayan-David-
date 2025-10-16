@@ -1,7 +1,12 @@
 <?php
+namespace Dwes\ProyectoVideoclub;
 
 // Incluimos la clase base Soporte
 include_once "Soporte.php";
+
+/**
+ * Juego v0.331
+ */
 
 // Clase que representa un Juego (hereda de Soporte)
 class Juego extends Soporte {
@@ -34,10 +39,10 @@ class Juego extends Soporte {
     }
 
     // Muestra un resumen del Juego
-    public function muestraResumen(): void {
+    public function muestraResumen(): self { // cambio a self para que perimita encadenamiento
         echo "<br>Juego para: " . $this->consola;         // indicamos la consola
         echo "<br>" . $this->muestraJugadoresPosibles();  // mostramos la información de jugadores posibles
+        return $this; // permite encadenamiento
     }
 }
-
 ?>
