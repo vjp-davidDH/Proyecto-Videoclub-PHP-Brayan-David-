@@ -1,6 +1,5 @@
 <?php
-// Incluimos la clase Juego
-include "../Clases/Juego.php";
+require_once "/../autoload.php"; 
 
 // Importamos el namespace
 use Dwes\ProyectoVideoclub\Juego;

@@ -1,6 +1,5 @@
 <?php
-// Incluimos la clase Dvd
-include "../Clases/Dvd.php";
+require_once "/../autoload.php"; 
 
 // Importamos el namespace
 use Dwes\ProyectoVideoclub\Dvd;

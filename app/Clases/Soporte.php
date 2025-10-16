@@ -6,7 +6,7 @@ namespace Dwes\ProyectoVideoclub;
  */
 
 // Incluimos la interfaz Resumible
-include_once "../Interfaces/Resumible.php";
+// include_once "../Interfaces/Resumible.php"; (Ya no es necesario por el autoload)
 
 // Clase que representa un soporte (por ejemplo, un libro o revista)
 abstract class Soporte implements Resumible{

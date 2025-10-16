@@ -1,8 +1,7 @@
 <?php
 //Todo esto no funcionara debido a que hemos convertido a Soporte en una clase abstracta
 
-// Incluimos la clase Soporte
-include "../Clases/Soporte.php";
+require_once "/../autoload.php"; 
 
 // Importamos el namespace
 use Dwes\ProyectoVideoclub\Soporte;

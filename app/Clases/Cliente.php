@@ -1,6 +1,6 @@
 <?php
 namespace Dwes\ProyectoVideoclub;
-include_once("Soporte.php"); // Incluimos la clase Soporte para usarla en Cliente
+// include_once("Soporte.php");  (Ya no es necesario por el autoload)
 
 /**
  * Cliente v0.331

@@ -1,5 +1,5 @@
 <?php
-include_once ("../Clases/Videoclub.php"); // No incluimos nada más
+require_once "/../autoload.php"; 
 
 // Importamos el namespace
 use Dwes\ProyectoVideoclub\Videoclub;

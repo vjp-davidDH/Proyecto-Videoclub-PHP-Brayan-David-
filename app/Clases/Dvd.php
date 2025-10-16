@@ -6,7 +6,7 @@ namespace Dwes\ProyectoVideoclub;
  */
 
 // Incluimos la clase base Soporte
-include_once "Soporte.php";
+// include_once "Soporte.php";  (Ya no es necesario por el autoload)
 
 // Clase que representa un DVD (hereda de Soporte)
 class Dvd extends Soporte {

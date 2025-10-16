@@ -1,6 +1,5 @@
 <?php
-// Incluimos la clase CintaVideo
-include "../Clases/CintaVideo.php";
+require_once "/../autoload.php"; // De esta manera carga las clases automaticamente
 
 // Importamos el namespace
 use Dwes\ProyectoVideoclub\CintaVideo;

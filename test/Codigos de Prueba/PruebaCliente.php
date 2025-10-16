@@ -1,8 +1,5 @@
 <?php
-include_once "../Clases/CintaVideo.php";
-include_once "../Clases/Dvd.php";
-include_once "../Clases/Juego.php";
-include_once "../Clases/Cliente.php";
+require_once "/../autoload.php"; 
 
 //importamos el namespace
 use Dwes\ProyectoVideoclub\CintaVideo;
