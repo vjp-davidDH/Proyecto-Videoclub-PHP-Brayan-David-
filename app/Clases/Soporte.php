@@ -18,6 +18,7 @@ abstract class Soporte implements Resumible{
     public $titulo;      // título del soporte
     protected $numero;   // número de edición o referencia
     private $precio;     // precio base del soporte
+    public $alquilado = false; // indica si el soporte está alquilado
 
     // Constructor: inicializa las propiedades al crear un objeto
     public function __construct($titulo, $precio) {

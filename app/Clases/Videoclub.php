@@ -23,11 +23,32 @@ class Videoclub {
     private $socios = [];     // array de clientes/socios
     private $numSocios;       // contador de socios
 
+    // propiedades nuevas
+    private $numProductosAlquilados =0; // contador de productos alquilados
+    private $numTotalAlquileres = 0;    // contador total de alquileres realizados
+
     // Constructor: inicializa el nombre del videoclub
     public function __construct($nombre) {
         $this->nombre = $nombre;
         $this->numProductos = 0;
         $this->numSocios = 0;// inicializamos los contenedores asi evitames posibles errroes de undefined
+    }
+    // Devuelve el número de productos alquilados
+    public function getNumProductosAlquilados(): int
+{
+    $contador = 0;
+    foreach ($this->productos as $producto) {
+        if ($producto->alquilado) {
+            $contador++;
+        }
+    }
+    return $contador;
+}
+
+    // Devuelve el número total de alquileres realizados
+    public function getNumProductosAlquiladosTotal(): int
+    {
+        return $this -> numTotalAlquileres;
     }
 
     // Añade un producto al array de productos (privado, solo uso interno)
@@ -69,32 +90,157 @@ class Videoclub {
     // Lista todos los productos del videoclub
     public function listarProductos() {
         foreach ($this->productos as $p) {
-            echo "<br>Titulo: " . $p->getTitulo();
-            echo "<br>Precio: " . $p->getPrecio();
-            echo "<br>" . $p->muestraResumen(); // muestra detalles según tipo de soporte
+            echo "Titulo: " . $p->getTitulo();
+            echo "Precio: " . $p->getPrecio();
+            echo $p->muestraResumen(); // muestra detalles según tipo de soporte
         }
     }
 
     // Lista todos los socios del videoclub
     public function listarSocios() {
         foreach ($this->socios as $s) {
-            echo "<br>" . $s->muestraResumen(); // muestra resumen del cliente
+            echo $s->muestraResumen(); // muestra resumen del cliente
         }
     }
 
     // Permite que un socio alquile un producto según sus índices en los arrays
-    public function alquilarSocioProducto($numeroCliente, $numeroSoporte): self {
-    if (!isset($this->socios[$numeroCliente]) || !isset($this->productos[$numeroSoporte])) {
-        echo "<br>Error: cliente o producto no encontrado<br>";
+    public function alquilarSocioProducto($numeroCliente, $numeroSoporte): self
+    {
+        if (!isset($this->socios[$numeroCliente])) {
+            echo "Error: cliente con índice {$numeroCliente} no encontrado";
+            return $this;
+        }
+
+        if (!isset($this->productos[$numeroSoporte])) {
+            echo "Error: producto con índice {$numeroSoporte} no encontrado";
+            return $this;
+        }
+
+        $socio = $this->socios[$numeroCliente];
+        $producto = $this->productos[$numeroSoporte];
+
+        try {
+            $socio->alquilar($producto);
+            echo "Alquilado con éxito:'{$producto->getTitulo()}' al cliente '{$socio->nombre}'";
+        } catch (SoporteYaAlquiladoException $e) {
+            echo "Error: " . $e->getMessage();
+        } catch (LimiteAlquileresExcedidoException $e) {
+            echo "Error: " . $e->getMessage();
+        } catch (\Exception $e) {
+            // Captura cualquier otra excepción inesperada (buena práctica)
+            echo "Error inesperado al alquilar: " . $e->getMessage();
+        }
+
         return $this;
     }
 
-    $socio = $this->socios[$numeroCliente];
-    $producto = $this->productos[$numeroSoporte];
-    $socio->alquilar($producto);
-
-    return $this; // lo modificamos para que perimita encadenar llamdas
+    public function alquilarSocioProductos(int $numSocio, array $numerosProductos): self {
+    // Verificar que el socio existe
+    if (!isset($this->socios[$numSocio])) {
+        echo "Error: cliente con índice {$numSocio} no encontrado<br>";
+        return $this;
     }
+
+    $socio = $this->socios[$numSocio];
+    $productosAAlquilar = [];
+
+    // Verificar que todos los productos existen y están disponibles
+    foreach ($numerosProductos as $indiceProducto) {
+        if (!isset($this->productos[$indiceProducto])) {
+            echo "Error: producto con índice {$indiceProducto} no existe<br>";
+            return $this;
+        }
+
+        $producto = $this->productos[$indiceProducto];
+
+        if ($producto->alquilado) {
+            echo "Error: el producto '{$producto->getTitulo()}' ya está alquilado<br>";
+            return $this;
+        }
+
+        $productosAAlquilar[] = $producto;
+    }
+
+    // Intentar alquilar todos los productos
+    try {
+        foreach ($productosAAlquilar as $producto) {
+            $socio->alquilar($producto);
+            echo "Alquilado con éxito: '{$producto->getTitulo()}' al cliente '{$socio->nombre}'<br>";
+            $this->numTotalAlquileres++;
+        }
+    } catch (LimiteAlquileresExcedidoException $e) {
+        echo "Error: " . $e->getMessage() . "<br>";
+    } catch (\Exception $e) {
+        echo "Error inesperado al alquilar: " . $e->getMessage() . "<br>";
+    }
+
+    return $this;
+    }
+
+    public function devolverSocioProducto(int $numSocio, int $numeroProducto): self {
+    if (!isset($this->socios[$numSocio])) {
+        echo "Error: cliente con índice {$numSocio} no encontrado<br>";
+        return $this;
+    }
+
+    if (!isset($this->productos[$numeroProducto])) {
+        echo "Error: producto con índice {$numeroProducto} no encontrado<br>";
+        return $this;
+    }
+
+    $socio = $this->socios[$numSocio];
+    $producto = $this->productos[$numeroProducto];
+
+    // Verificamos que el producto esté alquilado por el socio
+    if (!$socio->tieneAlquilado($producto)) {
+        echo "Error: el producto '{$producto->getTitulo()}' no está alquilado por el cliente '{$socio->nombre}'<br>";
+        return $this;
+    }
+
+    // Devolvemos el producto
+    $socio->devolver($producto);
+    $producto->alquilado = false;
+    echo "Producto '{$producto->getTitulo()}' devuelto por '{$socio->nombre}'<br>";
+
+    return $this;
+}
+
+public function devolverSocioProductos(int $numSocio, array $numerosProductos): self {
+    if (!isset($this->socios[$numSocio])) {
+        echo "Error: cliente con índice {$numSocio} no encontrado<br>";
+        return $this;
+    }
+
+    $socio = $this->socios[$numSocio];
+    $productosADevolver = [];
+
+    foreach ($numerosProductos as $indiceProducto) {
+        if (!isset($this->productos[$indiceProducto])) {
+            echo "Error: producto con índice {$indiceProducto} no encontrado<br>";
+            return $this;
+        }
+
+        $producto = $this->productos[$indiceProducto];
+
+        if (!$socio->tieneAlquilado($producto)) {
+            echo "Error: el producto '{$producto->getTitulo()}' no está alquilado por '{$socio->nombre}'<br>";
+            return $this;
+        }
+
+        $productosADevolver[] = $producto;
+    }
+
+    // Todos los productos son válidos, se devuelven
+    foreach ($productosADevolver as $producto) {
+        $socio->devolver($producto);
+        $producto->alquilado = false;
+        echo "Producto '{$producto->getTitulo()}' devuelto por '{$socio->nombre}'<br>";
+    }
+
+    return $this;
+}
+
+
 }
 
 ?>
