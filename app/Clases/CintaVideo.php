@@ -19,11 +19,13 @@ class CintaVideo extends Soporte {
         $this->duracion = $duracion;
     }
 
-    // Muestra un resumen de la cinta de vídeo
-    public function muestraResumen(): self {
-        echo "<br>Pelicula en VHS";  // indicamos que es una película en VHS
-        echo "<br>Duracion: " . $this->duracion . " minutos"; // mostramos la duración
-        return $this; // permite encadenamiento
+  public function muestraResumen(): void {
+        echo "<div>";
+        echo "<strong>Pelicula en VHS</strong><br>";
+        echo "Título: " . $this->getTitulo() . "<br>";
+        echo "Duración: " . $this->duracion . " minutos<br>";
+        echo "Precio con IVA: " . number_format($this->getPrecioConIva(), 2) . " €";
+        echo "</div>";
     }
 }
 ?>
