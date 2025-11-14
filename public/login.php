@@ -1,24 +1,32 @@
 <?php
+namespace Dwes\ProyectoVideoclub;
+
+// Cargar clases necesarias
+require_once __DIR__ . '/../app/Clases/Cliente.php';
+require_once __DIR__ . '/../app/Clases/Soporte.php';
+require_once __DIR__ . '/../app/Clases/Dvd.php';
+require_once __DIR__ . '/../app/Clases/CintaVideo.php';
+require_once __DIR__ . '/../app/Clases/Juego.php';
+
 session_start();
 
+// Datos de login
 $usuario = $_POST['usuario'] ?? '';
 $password = $_POST['password'] ?? '';
 
+// Usuarios válidos de ejemplo
 $usuarios_validos = [
     'admin' => 'admin',
     'usuario' => 'usuario'
 ];
 
+// Verificar usuario y contraseña
 if (isset($usuarios_validos[$usuario]) && $usuarios_validos[$usuario] === $password) {
+
     $_SESSION['usuario'] = $usuario;
 
     if ($usuario === 'admin') {
-        // Cargar datos de prueba para admin
-        $_SESSION['clientes'] = [
-            new Dwes\ProyectoVideoclub\Cliente("Carlos Pérez", 1, "carlos", "1234"),
-            new Dwes\ProyectoVideoclub\Cliente("Lucía Gómez", 2, "lucia", "5678")
-        ];
-
+        // Datos de soportes (solo para referencia, no se usan directamente)
         $_SESSION['soportes'] = [
             ['id' => 101, 'titulo' => 'El Padrino', 'tipo' => 'DVD'],
             ['id' => 102, 'titulo' => 'Super Mario Bros', 'tipo' => 'Juego'],
@@ -27,23 +35,15 @@ if (isset($usuarios_validos[$usuario]) && $usuarios_validos[$usuario] === $passw
 
         header("Location: mainAdmin.php");
         exit();
-    } else {
-        // Buscar si el usuario coincide con algún cliente
-        foreach ($_SESSION['clientes'] as $cliente) {
-            if ($cliente->getUser() === $usuario && $cliente->getPassword() === $password) {
-                $_SESSION['clienteActual'] = $cliente;
-                header("Location: mainCliente.php");
-                exit();
-            }
-        }
 
-        // Si no coincide con ningún cliente
-        header("Location: index.php?error=Usuario no encontrado");
+    } else {
+        $_SESSION['clienteActual'] = $cliente;
+        header("Location: mainCliente.php");
         exit();
     }
+
 } else {
+    // Usuario o contraseña incorrectos
     header("Location: index.php?error=Usuario o contraseña incorrectos");
     exit();
 }
-// Comentarios generados por ChatGPT 
-?>

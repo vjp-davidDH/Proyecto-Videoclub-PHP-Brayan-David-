@@ -3,8 +3,6 @@ namespace Dwes\ProyectoVideoclub;
 
 class Cliente
 {
-    lass Cliente
-{
     public $nombre;                       // Nombre del cliente (accesible públicamente)
     private $numero;                      // Número identificador del cliente
     private $user;                        // Nombre de usuario para login

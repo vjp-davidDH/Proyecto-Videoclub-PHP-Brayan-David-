@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../app/Clases/Cliente.php';
 session_start();
 
 if (!isset($_SESSION['usuario']) || $_SESSION['usuario'] !== 'admin') {
@@ -13,27 +14,38 @@ $soportes = $_SESSION['soportes'] ?? [];
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Panel de Administración</title>
 </head>
+
 <body>
 
     <!-- Muestra el nombre del administrador conectado -->
     <h2>Bienvenido, administrador <?php echo htmlspecialchars($_SESSION['usuario']); ?></h2>
     <p><a href="logout.php">Cerrar sesión</a></p>
 
-    <!-- Listado de clientes del sistema -->
     <h3>Listado de clientes</h3>
     <ul>
-        <?php foreach ($clientes as $cliente): ?>
+        <?php foreach ($clientes as $i => $cliente): ?>
             <li>
                 <?php
                 // Muestra nombre del cliente y su usuario de acceso
                 echo $cliente->nombre . ' (Usuario: ' . $cliente->getUser() . ')';
                 ?>
+                <!-- Enlace para editar este cliente usando su índice -->
+                <p><a href="formUpdateCliente.php?numero=<?php echo $cliente->getNumero(); ?>">Editar cliente</a></p>
+                <p>
+                    <a href="removeCliente.php?numero=<?php echo $cliente->getNumero(); ?>"
+                        onclick="return confirm('¿Estás seguro de que deseas eliminar este cliente?');">
+                        Eliminar cliente
+                    </a>
+                </p>
             </li>
         <?php endforeach; ?>
+        <p><a href="formCreateCliente.php">Dar de alta un nuevo cliente</a></p>
     </ul>
+
 
     <!-- Listado de soportes registrados -->
     <h3>Listado de soportes</h3>
@@ -46,5 +58,5 @@ $soportes = $_SESSION['soportes'] ?? [];
     </ul>
 
 </body>
-</html>
 
+</html>

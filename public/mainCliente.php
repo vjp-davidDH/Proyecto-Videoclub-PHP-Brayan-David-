@@ -1,11 +1,21 @@
 <?php
+namespace Dwes\ProyectoVideoclub;
+
+// Cargar todas las clases necesarias
+require_once __DIR__ . '/../app/Clases/Cliente.php';
+require_once __DIR__ . '/../app/Clases/Soporte.php';
+require_once __DIR__ . '/../app/Clases/Dvd.php';
+require_once __DIR__ . '/../app/Clases/CintaVideo.php';
+require_once __DIR__ . '/../app/Clases/Juego.php';
+require_once __DIR__ . '/../app/Clases/Videoclub.php';
+
 session_start();
 
-/*
- * Control de acceso:
- * Si no hay sesión de usuario o si el usuario ES admin,
- * no debe acceder al área de cliente. Se redirige al login.
- */
+use Dwes\ProyectoVideoclub\Dvd;
+use Dwes\ProyectoVideoclub\CintaVideo;
+use Dwes\ProyectoVideoclub\Juego;
+
+// Control de acceso: solo usuarios no-admin
 if (!isset($_SESSION['usuario']) || $_SESSION['usuario'] === 'admin') {
     header("Location: index.php");
     exit();
@@ -14,38 +24,46 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario'] === 'admin') {
 // Cliente actualmente autenticado
 $cliente = $_SESSION['clienteActual'] ?? null;
 
-// Si no existe el cliente en sesión, vuelve al login con un mensaje de error
+// Si no existe el cliente, volver al login
 if (!$cliente) {
     header("Location: index.php?error=Cliente no encontrado");
     exit();
 }
 
-// Alquileres del cliente
+// ⚡ Inicializar soportes de prueba si el cliente no tiene ninguno
+if (empty($cliente->getAlquileres())) {
+    $cliente->añadirSoporte(new Dvd("El Padrino", 10, "ES,EN", "16:9"));
+    $cliente->añadirSoporte(new CintaVideo("Titanic", 8, 195));
+    $cliente->añadirSoporte(new Juego("Mario Kart", 15, "Nintendo Switch", 1, 4));
+
+    // Guardar nuevamente el cliente en sesión
+    $_SESSION['clienteActual'] = $cliente;
+}
+
+// Obtener alquileres
 $alquileres = $cliente->getAlquileres();
-// Comentarios generados por ChatGPT 
+
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Área del Cliente</title>
 </head>
 <body>
 
-    <!-- Saludo personalizado -->
     <h2>Bienvenido, <?php echo htmlspecialchars($cliente->nombre); ?></h2>
     <p><a href="logout.php">Cerrar sesión</a></p>
 
-    <!-- Listado de soportes alquilados -->
-    <h3>Listado de alquileres</h3>
+    <h3>Listado de soportes alquilados</h3>
 
     <?php if (!empty($alquileres)): ?>
         <ul>
             <?php foreach ($alquileres as $soporte): ?>
                 <li>
                     <?php
-                    // Muestra título y precio del soporte
-                    echo $soporte->getTitulo() . " - " . $soporte->getPrecio();
+                        echo htmlspecialchars($soporte->getTitulo()) . " - €" . number_format($soporte->getPrecio(), 2);
                     ?>
                 </li>
             <?php endforeach; ?>
@@ -56,4 +74,3 @@ $alquileres = $cliente->getAlquileres();
 
 </body>
 </html>
-
