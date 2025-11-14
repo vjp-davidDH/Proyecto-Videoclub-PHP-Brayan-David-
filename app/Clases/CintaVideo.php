@@ -1,6 +1,6 @@
 <?php
 namespace Dwes\ProyectoVideoclub;
-
+require_once __DIR__ . '/../../Interfaces/Resumible.php';
 /**
  * CintaVideo v0.331
  */
@@ -20,7 +20,7 @@ class CintaVideo extends Soporte {
     }
 
     // Muestra un resumen de la cinta de vídeo
-    public function muestraResumen(): self {
+    public function muestraResumen(): static {
         echo "<br>Pelicula en VHS";  // indicamos que es una película en VHS
         echo "<br>Duracion: " . $this->duracion . " minutos"; // mostramos la duración
         return $this; // permite encadenamiento

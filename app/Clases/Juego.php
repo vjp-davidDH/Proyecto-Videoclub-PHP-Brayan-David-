@@ -1,6 +1,6 @@
 <?php
 namespace Dwes\ProyectoVideoclub;
-
+require_once __DIR__ . '/../../Interfaces/Resumible.php';
 // Incluimos la clase base Soporte
 // include_once "Soporte.php";  (Ya no es necesario por el autoload)
 
@@ -39,7 +39,7 @@ class Juego extends Soporte {
     }
 
     // Muestra un resumen del Juego
-    public function muestraResumen(): self { // cambio a self para que perimita encadenamiento
+    public function muestraResumen(): static { // cambio a self para que perimita encadenamiento
         echo "<br>Juego para: " . $this->consola;         // indicamos la consola
         echo "<br>" . $this->muestraJugadoresPosibles();  // mostramos la información de jugadores posibles
         return $this; // permite encadenamiento
