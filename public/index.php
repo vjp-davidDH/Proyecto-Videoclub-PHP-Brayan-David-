@@ -4,7 +4,7 @@ session_start();
 
 // Si ya hay un usuario logueado, redirigir a main.php
 if (isset($_SESSION['usuario'])) {
-    header("Location: main.php");
+    header("Location: mainCliente.php");
     exit();
     // Comentarios generados por ChatGPT 
 }

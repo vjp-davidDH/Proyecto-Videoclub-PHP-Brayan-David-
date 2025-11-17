@@ -15,7 +15,7 @@ $usuario = $_SESSION['usuario'];
 // Comentarios generados por ChatGPT 
 ?>
 
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
 <head>
     <title>Bienvenido al Videoclub</title>

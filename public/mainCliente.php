@@ -16,10 +16,16 @@ use Dwes\ProyectoVideoclub\CintaVideo;
 use Dwes\ProyectoVideoclub\Juego;
 
 // Control de acceso: solo usuarios no-admin
-if (!isset($_SESSION['usuario']) || $_SESSION['usuario'] === 'admin') {
+if (!isset($_SESSION['usuario'])) {
     header("Location: index.php");
     exit();
 }
+
+if ($_SESSION['usuario'] === 'admin') {
+    header("Location: mainAdmin.php");
+    exit();
+}
+
 
 // Cliente actualmente autenticado
 $cliente = $_SESSION['clienteActual'] ?? null;

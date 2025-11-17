@@ -1,4 +1,5 @@
 <?php
+
 namespace Dwes\ProyectoVideoclub;
 
 // Cargar clases necesarias
@@ -35,13 +36,14 @@ if (isset($usuarios_validos[$usuario]) && $usuarios_validos[$usuario] === $passw
 
         header("Location: mainAdmin.php");
         exit();
-
     } else {
+        $cliente = new Cliente("Usuario", 1, $usuario, $password);
+
+        // GUARDARLO en sesión
         $_SESSION['clienteActual'] = $cliente;
         header("Location: mainCliente.php");
         exit();
     }
-
 } else {
     // Usuario o contraseña incorrectos
     header("Location: index.php?error=Usuario o contraseña incorrectos");
