@@ -1,0 +1,269 @@
+/* ========================================
+   CSS para mainCliente.php - Área del Cliente
+   ======================================== */
+
+/* Reset y configuración base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Contenedor principal */
+.cliente-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    padding: 40px;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Encabezado del cliente */
+.cliente-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+    padding-bottom: 25px;
+    border-bottom: 3px solid #ff6b6b;
+}
+
+h2 {
+    color: #ff6b6b;
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* Botón de cerrar sesión */
+.logout-link {
+    padding: 10px 20px;
+    background-color: #ff6b6b;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.logout-link:hover {
+    background-color: #ee5a52;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+}
+
+/* Sección de alquileres */
+h3 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 25px;
+    padding-left: 12px;
+    border-left: 4px solid #ff6b6b;
+    margin-top: 20px;
+}
+
+/* Lista de alquileres */
+ul {
+    list-style: none;
+}
+
+li {
+    background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
+    padding: 20px 25px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border-left: 5px solid #ff6b6b;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+li:hover {
+    transform: translateX(8px);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.2);
+}
+
+/* Información del soporte */
+.soporte-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.soporte-titulo {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.soporte-precio {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ff6b6b;
+}
+
+/* Mensaje cuando no hay alquileres */
+.no-alquileres {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    color: #666;
+    font-size: 16px;
+}
+
+.no-alquileres::before {
+    content: "📦";
+    display: block;
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+/* Tarjeta de resumen */
+.resumen-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 25px;
+    border-radius: 10px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+}
+
+.resumen-item {
+    text-align: center;
+}
+
+.resumen-numero {
+    font-size: 32px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.resumen-label {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+/* Botones de acción */
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+.btn-action {
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-primary {
+    background-color: #4caf50;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.btn-secondary {
+    background-color: #2196f3;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #1976d2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+}
+
+/* Badge de tipo de soporte */
+.badge {
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-dvd {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.badge-juego {
+    background-color: #f3e5f5;
+    color: #7b1fa2;
+}
+
+.badge-cinta {
+    background-color: #fff3e0;
+    color: #e65100;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .cliente-container {
+        padding: 25px 15px;
+    }
+    
+    .cliente-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    h2 {
+        font-size: 26px;
+    }
+    
+    h3 {
+        font-size: 20px;
+    }
+    
+    li {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+    
+    .resumen-card {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+}

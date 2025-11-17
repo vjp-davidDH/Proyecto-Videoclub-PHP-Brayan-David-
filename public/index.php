@@ -14,27 +14,38 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Videoclub</title>
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-    <h2>Acceso al Videoclub</h2>
+    <div class="login-container">
+        <h2>Acceso al Videoclub</h2>
 
-    <!-- Mostrar mensaje de error si existe -->
-    <?php if ($error): ?>
-        <p style="color:red;"><?php echo htmlspecialchars($error); ?></p>
-    <?php endif; ?>
+        <!-- Mostrar mensaje de error si existe -->
+        <?php if ($error): ?>
+            <div class="error">
+                <p><?php echo htmlspecialchars($error); ?></p>
+            </div>
+        <?php endif; ?>
 
-    <!-- Formulario de login -->
-    <form method="post" action="login.php">
-        <label for="usuario">Usuario:</label>
-        <input type="text" name="usuario" id="usuario" required><br><br>
+        <!-- Formulario de login -->
+        <form method="post" action="login.php">
+            <div class="form-group">
+                <label for="usuario">Usuario:</label>
+                <input type="text" name="usuario" id="usuario" required>
+            </div>
 
-        <label for="password">Contraseña:</label>
-        <input type="password" name="password" id="password" required><br><br>
+            <div class="form-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" name="password" id="password" required>
+            </div>
 
-        <input type="submit" value="Entrar">
-    </form>
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
 </body>
 </html>

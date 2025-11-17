@@ -15,15 +15,20 @@ $usuario = $_SESSION['usuario'];
 // Comentarios generados por ChatGPT 
 ?>
 
-<!DOCTYPE html> 
-<html>
+<!DOCTYPE html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenido al Videoclub</title>
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <h2>Bienvenido, <?php echo htmlspecialchars($usuario); ?>!</h2>
+    <div class="main-container">
+        <h2>Bienvenido, <?php echo htmlspecialchars($usuario); ?>!</h2>
 
-    <!-- Enlace para cerrar sesión -->
-    <p><a href="logout.php">Cerrar sesión</a></p>
+        <!-- Enlace para cerrar sesión -->
+        <p><a href="logout.php" class="logout-link">Cerrar sesión</a></p>
+    </div>
 </body>
 </html>

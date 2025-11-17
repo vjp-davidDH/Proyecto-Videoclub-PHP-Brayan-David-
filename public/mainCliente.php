@@ -52,31 +52,35 @@ $alquileres = $cliente->getAlquileres();
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área del Cliente</title>
+    <link rel="stylesheet" href="css/mainCliente.css">
 </head>
 <body>
 
-    <h2>Bienvenido, <?php echo htmlspecialchars($cliente->nombre); ?></h2>
-    <p><a href="logout.php">Cerrar sesión</a></p>
+    <div class="client-container">
+        <h2>Bienvenido, <?php echo htmlspecialchars($cliente->nombre); ?></h2>
+        <p><a href="logout.php" class="logout-link">Cerrar sesión</a></p>
 
-    <h3>Listado de soportes alquilados</h3>
+        <h3>Listado de soportes alquilados</h3>
 
-    <?php if (!empty($alquileres)): ?>
-        <ul>
-            <?php foreach ($alquileres as $soporte): ?>
-                <li>
-                    <?php
-                        echo htmlspecialchars($soporte->getTitulo()) . " - €" . number_format($soporte->getPrecio(), 2);
-                    ?>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    <?php else: ?>
-        <p>No tienes soportes alquilados actualmente.</p>
-    <?php endif; ?>
+        <?php if (!empty($alquileres)): ?>
+            <ul class="rental-list">
+                <?php foreach ($alquileres as $soporte): ?>
+                    <li>
+                        <?php
+                            echo htmlspecialchars($soporte->getTitulo()) . " - €" . number_format($soporte->getPrecio(), 2);
+                        ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <p class="no-rentals">No tienes soportes alquilados actualmente.</p>
+        <?php endif; ?>
+    </div>
 
 </body>
 </html>
