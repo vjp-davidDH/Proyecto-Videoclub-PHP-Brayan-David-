@@ -1,12 +1,11 @@
 <?php
 namespace Dwes\ProyectoVideoclub;
 
+require_once __DIR__ . '/../../Interfaces/Resumible.php';
+
 /**
  * CintaVideo v0.331
  */
-
-// Incluimos la clase base Soporte
-// include_once "Soporte.php"; (Ya no es necesario por el autoload)
 
 // Clase que representa una cinta de vídeo (hereda de Soporte)
 class CintaVideo extends Soporte {
@@ -19,13 +18,15 @@ class CintaVideo extends Soporte {
         $this->duracion = $duracion;
     }
 
-  public function muestraResumen(): void {
+    // Muestra un resumen de la cinta de vídeo
+    public function muestraResumen(): static {
         echo "<div>";
         echo "<strong>Pelicula en VHS</strong><br>";
         echo "Título: " . $this->getTitulo() . "<br>";
         echo "Duración: " . $this->duracion . " minutos<br>";
         echo "Precio con IVA: " . number_format($this->getPrecioConIva(), 2) . " €";
         echo "</div>";
+        return $this; // permite encadenamiento
     }
 }
-?>
+

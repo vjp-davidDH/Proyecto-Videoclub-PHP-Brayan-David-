@@ -80,8 +80,8 @@ class Videoclub {
 }
 
     // Crea y añade un socio/cliente al videoclub
-    public function incluirSocio($nombre, $maxAlquileresConcurrentes = 3): self {
-    $cliente = new Cliente($nombre, $maxAlquileresConcurrentes);
+    public function incluirSocio($nombre, $numero, $user, $password, $maxAlquileresConcurrentes = 3): self {
+    $cliente = new Cliente($nombre, $numero, $user, $password);
     $this->socios[] = $cliente;
     $this->numSocios++;
     return $this;

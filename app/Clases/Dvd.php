@@ -1,6 +1,6 @@
 <?php
 namespace Dwes\ProyectoVideoclub;
-
+require_once __DIR__ . '/../../Interfaces/Resumible.php';
 /**
  * Dvd v0.331
  */
@@ -22,7 +22,7 @@ class Dvd extends Soporte {
     }
 
     // Muestra un resumen del DVD
-    public function muestraResumen(): self{
+    public function muestraResumen(): static{
         echo "<br>Pelicula en DVD";        // indicamos que es un DVD
         echo "<br>Idiomas: " . $this->idiomas;            // mostramos idiomas
         echo "<br>Formato Pantalla: " . $this->formatoPantalla; // mostramos formato de pantalla

@@ -1,6 +1,6 @@
 <?php
 namespace Dwes\ProyectoVideoclub;
-
+require_once __DIR__ . '/../../Interfaces/Resumible.php';
 /**
  * Clase Soporte v0.331
  */
@@ -52,6 +52,6 @@ abstract class Soporte implements Resumible {
     }
 
     // Muestra un resumen sencillo del soporte
-    abstract public function muestraResumen(): self;
+    abstract public function muestraResumen(): static;
 }
 ?>
