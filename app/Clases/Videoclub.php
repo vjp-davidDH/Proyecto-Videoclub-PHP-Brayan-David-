@@ -122,9 +122,7 @@ class Videoclub {
         try {
             $socio->alquilar($producto);
             echo "Alquilado con éxito:'{$producto->getTitulo()}' al cliente '{$socio->nombre}'";
-        } catch (SoporteYaAlquiladoException $e) {
-            echo "Error: " . $e->getMessage();
-        } catch (LimiteAlquileresExcedidoException $e) {
+        } catch (Util\SoporteYaAlquiladoException $e) {
             echo "Error: " . $e->getMessage();
         } catch (\Exception $e) {
             // Captura cualquier otra excepción inesperada (buena práctica)
@@ -168,8 +166,6 @@ class Videoclub {
             echo "Alquilado con éxito: '{$producto->getTitulo()}' al cliente '{$socio->nombre}'<br>";
             $this->numTotalAlquileres++;
         }
-    } catch (LimiteAlquileresExcedidoException $e) {
-        echo "Error: " . $e->getMessage() . "<br>";
     } catch (\Exception $e) {
         echo "Error inesperado al alquilar: " . $e->getMessage() . "<br>";
     }

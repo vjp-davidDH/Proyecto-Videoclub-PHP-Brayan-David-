@@ -26,6 +26,7 @@ class Dvd extends Soporte {
         echo "<br>Pelicula en DVD";        // indicamos que es un DVD
         echo "<br>Idiomas: " . $this->idiomas;            // mostramos idiomas
         echo "<br>Formato Pantalla: " . $this->formatoPantalla; // mostramos formato de pantalla
+        return $this; // permite encadenamiento
     }
 }
 

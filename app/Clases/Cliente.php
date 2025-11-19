@@ -1,4 +1,4 @@
-<<?php
+<?php
 namespace Dwes\ProyectoVideoclub;
 
 /**
@@ -62,11 +62,7 @@ class Cliente
     public function alquilar(Soporte $s): self
     {
         if ($this->tieneAlquilado($s)) {
-            throw new SoporteYaAlquiladoException("El cliente ya tiene alquilado el soporte '{$s->getTitulo()}'.");
-        }
-
-        if ($this->numSoportesAlquilados >= $this->maxAlquilerConcurrente) {
-            throw new LimiteAlquileresExcedidoException("Este cliente ha alcanzado el límite de {$this->maxAlquilerConcurrente} alquileres concurrentes.");
+            throw new Util\SoporteYaAlquiladoException("El cliente ya tiene alquilado el soporte '{$s->getTitulo()}'.");
         }
 
         $this->añadirSoporte($s);
@@ -77,7 +73,7 @@ class Cliente
     public function devolver(int $numSoporte): self // para encadenamiento completo
     {
         if (!isset($this->soporteAlquilados[$numSoporte])) {
-            throw new SoporteNoAlquiladoException("No se ha encontrado el soporte con índice {$numSoporte} en los alquileres de este cliente.");
+            throw new Util\SoporteNoEncontradoException("No se ha encontrado el soporte con índice {$numSoporte} en los alquileres de este cliente.");
         }
 
         unset($this->soporteAlquilados[$numSoporte]);

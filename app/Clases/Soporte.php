@@ -6,10 +6,11 @@ namespace Dwes\ProyectoVideoclub;
  */
 
 // Incluimos la interfaz Resumible
-// include_once "../Interfaces/Resumible.php"; (Ya no es necesario por el autoload)
+
+//include_once "../Interfaces/Resumible.php";
 
 // Clase que representa un soporte (por ejemplo, un libro o revista)
-abstract class Soporte implements Resumible{
+abstract class Soporte implements Resumible {
 
     // Constante protegida del IVA (21%)
     protected const IVA = 0.21;
@@ -51,6 +52,6 @@ abstract class Soporte implements Resumible{
     }
 
     // Muestra un resumen sencillo del soporte
-    abstract public function muestraResumen(): void;
+    abstract public function muestraResumen(): self;
 }
 ?>

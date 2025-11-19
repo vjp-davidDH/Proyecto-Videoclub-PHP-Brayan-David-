@@ -1,12 +1,9 @@
 <?php
-<?php
 namespace Dwes\ProyectoVideoclub\Util;
 
 class SoporteNoEncontradoException extends VideoclubException
 {
     // No necesitamos nada más
 }
-
-?>
 
 ?>
