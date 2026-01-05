@@ -38,7 +38,7 @@ if (!$cliente) {
 
 // ⚡ Inicializar soportes de prueba si el cliente no tiene ninguno
 if (empty($cliente->getAlquileres())) {
-    $cliente->añadirSoporte(new Dvd("El Padrino", 10, "ES,EN", "16:9"));
+    $cliente->añadirSoporte(new Dvd("El Padrino", 10, "ES,EN", "16:9", 175));
     $cliente->añadirSoporte(new CintaVideo("Titanic", 8, 195));
     $cliente->añadirSoporte(new Juego("Mario Kart", 15, "Nintendo Switch", 1, 4));
 
