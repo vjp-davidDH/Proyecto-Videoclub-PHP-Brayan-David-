@@ -10,7 +10,8 @@ require_once __DIR__ . '/../../Interfaces/Resumible.php';
 //include_once "../Interfaces/Resumible.php";
 
 // Clase que representa un soporte (por ejemplo, un libro o revista)
-abstract class Soporte implements Resumible {
+abstract class Soporte implements Resumible
+{
 
     // Constante protegida del IVA (21%)
     protected const IVA = 0.21;
@@ -22,7 +23,8 @@ abstract class Soporte implements Resumible {
     public $alquilado = false; // indica si el soporte está alquilado
 
     // Constructor: inicializa las propiedades al crear un objeto
-    public function __construct($titulo, $precio) {
+    public function __construct($titulo, $precio)
+    {
         $this->titulo = $titulo;
         $this->precio = $precio;
     }
@@ -52,6 +54,6 @@ abstract class Soporte implements Resumible {
     }
 
     // Muestra un resumen sencillo del soporte
-    abstract public function muestraResumen(): static;
+    abstract public function muestraResumen(): string;
 }
 ?>

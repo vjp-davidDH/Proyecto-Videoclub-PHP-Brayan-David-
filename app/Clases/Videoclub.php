@@ -15,7 +15,8 @@ namespace Dwes\ProyectoVideoclub;
  */
 
 // Clase que representa un videoclub
-class Videoclub {
+class Videoclub
+{
 
     private $nombre;          // nombre del videoclub
     private $productos = [];  // array de productos (CintaVideo, Dvd, Juego)
@@ -24,71 +25,86 @@ class Videoclub {
     private $numSocios;       // contador de socios
 
     // propiedades nuevas
-    private $numProductosAlquilados =0; // contador de productos alquilados
+    private $numProductosAlquilados = 0; // contador de productos alquilados
     private $numTotalAlquileres = 0;    // contador total de alquileres realizados
 
     // Constructor: inicializa el nombre del videoclub
-    public function __construct($nombre) {
+    public function __construct($nombre)
+    {
         $this->nombre = $nombre;
         $this->numProductos = 0;
         $this->numSocios = 0;// inicializamos los contenedores asi evitames posibles errroes de undefined
     }
     // Devuelve el número de productos alquilados
     public function getNumProductosAlquilados(): int
-{
-    $contador = 0;
-    foreach ($this->productos as $producto) {
-        if ($producto->alquilado) {
-            $contador++;
+    {
+        $contador = 0;
+        foreach ($this->productos as $producto) {
+            if ($producto->alquilado) {
+                $contador++;
+            }
         }
+        return $contador;
     }
-    return $contador;
-}
 
     // Devuelve el número total de alquileres realizados
     public function getNumProductosAlquiladosTotal(): int
     {
-        return $this -> numTotalAlquileres;
+        return $this->numTotalAlquileres;
     }
 
     // Añade un producto al array de productos (privado, solo uso interno)
-    private function incluirProducto(Soporte $producto) {
+    private function incluirProducto(Soporte $producto)
+    {
         $this->productos[] = $producto;
         echo "<br>Incluido soporte<br>"; // mensaje de confirmación
         $this->numProductos++;
     }
 
     // Crea y añade una cinta de vídeo al videoclub
-    public function incluirCintaVideo($titulo,  $precio, $duracion): self { 
-    $cintaVideo = new CintaVideo($titulo,  $precio, $duracion);
-    $this->incluirProducto($cintaVideo);
-    return $this; // devuelve el objeto Videoclub para encadenar llamadas
-}
+    public function incluirCintaVideo($titulo, $precio, $duracion): self
+    {
+        $cintaVideo = new CintaVideo($titulo, $precio, $duracion);
+        $this->incluirProducto($cintaVideo);
+        return $this; // devuelve el objeto Videoclub para encadenar llamadas
+    }
 
     // Crea y añade un DVD al videoclub
-    public function incluirDvd($titulo,  $precio, $idiomas, $formatoPantalla): self {
-    $dvd = new Dvd($titulo,  $precio, $idiomas, $formatoPantalla);
-    $this->incluirProducto($dvd);
-    return $this; 
-}
+    public function incluirDvd($titulo, $precio, $idiomas, $formatoPantalla, $duracion): self
+    {
+        $dvd = new Dvd($titulo, $precio, $idiomas, $formatoPantalla, $duracion);
+        $this->incluirProducto($dvd);
+        return $this;
+    }
+
+    // Crea y añade un Bluray al videoclub
+    public function incluirBluray($titulo, $precio, $duracion, $is4k): self
+    {
+        $bluray = new Bluray($titulo, $precio, $duracion, $is4k);
+        $this->incluirProducto($bluray);
+        return $this;
+    }
 
     // Crea y añade un Juego al videoclub
-    public function incluirJuego($titulo,  $precio, $consola, $minNumJugadores, $maxNumJugadores): self {
-    $juego = new Juego($titulo,  $precio, $consola, $minNumJugadores, $maxNumJugadores);
-    $this->incluirProducto($juego);
-    return $this;
-}
+    public function incluirJuego($titulo, $precio, $consola, $minNumJugadores, $maxNumJugadores): self
+    {
+        $juego = new Juego($titulo, $precio, $consola, $minNumJugadores, $maxNumJugadores);
+        $this->incluirProducto($juego);
+        return $this;
+    }
 
     // Crea y añade un socio/cliente al videoclub
-    public function incluirSocio($nombre, $numero, $user, $password, $maxAlquileresConcurrentes = 3): self {
-    $cliente = new Cliente($nombre, $numero, $user, $password);
-    $this->socios[] = $cliente;
-    $this->numSocios++;
-    return $this;
-}
+    public function incluirSocio($nombre, $numero, $user, $password, $maxAlquileresConcurrentes = 3): self
+    {
+        $cliente = new Cliente($nombre, $numero, $user, $password);
+        $this->socios[] = $cliente;
+        $this->numSocios++;
+        return $this;
+    }
 
     // Lista todos los productos del videoclub
-    public function listarProductos() {
+    public function listarProductos()
+    {
         foreach ($this->productos as $p) {
             echo "Titulo: " . $p->getTitulo();
             echo "Precio: " . $p->getPrecio();
@@ -97,7 +113,8 @@ class Videoclub {
     }
 
     // Lista todos los socios del videoclub
-    public function listarSocios() {
+    public function listarSocios()
+    {
         foreach ($this->socios as $s) {
             echo $s->muestraResumen(); // muestra resumen del cliente
         }
@@ -107,11 +124,15 @@ class Videoclub {
     public function alquilarSocioProducto($numeroCliente, $numeroSoporte): self
     {
         if (!isset($this->socios[$numeroCliente])) {
-            echo "Error: cliente con índice {$numeroCliente} no encontrado";
-            return $this;
+            throw new \Dwes\Videoclub\Exception\ClienteNoExisteException("Cliente con id {$numeroCliente} no encontrado");
         }
 
         if (!isset($this->productos[$numeroSoporte])) {
+            // echo "Error: producto con índice {$numeroSoporte} no encontrado"; // Validar si debemos lanzar excepción SoporteNoEncontrado? El enunciado solo hablaba de Cliente.
+            // Pero para consistencia, deberia? De momento mantengo comportamiento existente o lanzo exception si fuera parte de Requirements.
+            // "al intentar alquilar un soporte marcado como ya alquilado debe lanzar una excepción" -> Esto es logica de Cliente::alquilar.
+            // Aquí, si el producto no existe en el catalogo Videoclub... mantengo echo o cambio?
+            // El requisito solo menciona ClienteNoExisteException explicita.
             echo "Error: producto con índice {$numeroSoporte} no encontrado";
             return $this;
         }
@@ -122,119 +143,124 @@ class Videoclub {
         try {
             $socio->alquilar($producto);
             echo "Alquilado con éxito:'{$producto->getTitulo()}' al cliente '{$socio->nombre}'";
-        } catch (Util\SoporteYaAlquiladoException $e) {
+        } catch (\Dwes\Videoclub\Exception\SoporteYaAlquiladoException $e) {
+            echo "Error: " . $e->getMessage();
+        } catch (\Dwes\Videoclub\Exception\CupoSuperadoException $e) {
             echo "Error: " . $e->getMessage();
         } catch (\Exception $e) {
-            // Captura cualquier otra excepción inesperada (buena práctica)
             echo "Error inesperado al alquilar: " . $e->getMessage();
         }
 
         return $this;
     }
 
-    public function alquilarSocioProductos(int $numSocio, array $numerosProductos): self {
-    // Verificar que el socio existe
-    if (!isset($this->socios[$numSocio])) {
-        echo "Error: cliente con índice {$numSocio} no encontrado<br>";
+    public function alquilarSocioProductos(int $numSocio, array $numerosProductos): self
+    {
+        // Verificar que el socio existe
+        if (!isset($this->socios[$numSocio])) {
+            throw new \Dwes\Videoclub\Exception\ClienteNoExisteException("Cliente con id {$numSocio} no encontrado");
+        }
+
+        $socio = $this->socios[$numSocio];
+        $productosAAlquilar = [];
+
+        // Verificar que todos los productos existen y están disponibles
+        foreach ($numerosProductos as $indiceProducto) {
+            if (!isset($this->productos[$indiceProducto])) {
+                echo "Error: producto con índice {$indiceProducto} no existe<br>";
+                return $this;
+            }
+
+            $producto = $this->productos[$indiceProducto];
+
+            if ($producto->alquilado) {
+                echo "Error: el producto '{$producto->getTitulo()}' ya está alquilado<br>";
+                return $this;
+            }
+
+            $productosAAlquilar[] = $producto;
+        }
+
+        // Intentar alquilar todos los productos
+        try {
+            foreach ($productosAAlquilar as $producto) {
+                $socio->alquilar($producto);
+                echo "Alquilado con éxito: '{$producto->getTitulo()}' al cliente '{$socio->nombre}'<br>";
+                $this->numTotalAlquileres++;
+            }
+        } catch (\Dwes\Videoclub\Exception\VideoclubException $e) { // Catch general videoclub exceptions
+            echo "Error: " . $e->getMessage() . "<br>";
+        } catch (\Exception $e) {
+            echo "Error inesperado al alquilar: " . $e->getMessage() . "<br>";
+        }
+
         return $this;
     }
 
-    $socio = $this->socios[$numSocio];
-    $productosAAlquilar = [];
+    public function devolverSocioProducto(int $numSocio, int $numeroProducto): self
+    {
+        if (!isset($this->socios[$numSocio])) {
+            throw new \Dwes\Videoclub\Exception\ClienteNoExisteException("Cliente con id {$numSocio} no encontrado");
+        }
 
-    // Verificar que todos los productos existen y están disponibles
-    foreach ($numerosProductos as $indiceProducto) {
-        if (!isset($this->productos[$indiceProducto])) {
-            echo "Error: producto con índice {$indiceProducto} no existe<br>";
+        if (!isset($this->productos[$numeroProducto])) {
+            echo "Error: producto con índice {$numeroProducto} no encontrado<br>";
             return $this;
         }
 
-        $producto = $this->productos[$indiceProducto];
+        $socio = $this->socios[$numSocio];
+        $producto = $this->productos[$numeroProducto];
 
-        if ($producto->alquilado) {
-            echo "Error: el producto '{$producto->getTitulo()}' ya está alquilado<br>";
-            return $this;
+        // Verificamos que el producto esté alquilado por el socio
+        try {
+            $socio->devolver($producto);
+            echo "Producto '{$producto->getTitulo()}' devuelto por '{$socio->nombre}'<br>";
+        } catch (\Dwes\Videoclub\Exception\SoporteNoEncontradoException $e) {
+            echo "Error: " . $e->getMessage() . "<br>";
+        } catch (\Exception $e) {
+            echo "Error: " . $e->getMessage() . "<br>";
         }
 
-        $productosAAlquilar[] = $producto;
-    }
-
-    // Intentar alquilar todos los productos
-    try {
-        foreach ($productosAAlquilar as $producto) {
-            $socio->alquilar($producto);
-            echo "Alquilado con éxito: '{$producto->getTitulo()}' al cliente '{$socio->nombre}'<br>";
-            $this->numTotalAlquileres++;
-        }
-    } catch (\Exception $e) {
-        echo "Error inesperado al alquilar: " . $e->getMessage() . "<br>";
-    }
-
-    return $this;
-    }
-
-    public function devolverSocioProducto(int $numSocio, int $numeroProducto): self {
-    if (!isset($this->socios[$numSocio])) {
-        echo "Error: cliente con índice {$numSocio} no encontrado<br>";
         return $this;
     }
 
-    if (!isset($this->productos[$numeroProducto])) {
-        echo "Error: producto con índice {$numeroProducto} no encontrado<br>";
-        return $this;
-    }
-
-    $socio = $this->socios[$numSocio];
-    $producto = $this->productos[$numeroProducto];
-
-    // Verificamos que el producto esté alquilado por el socio
-    if (!$socio->tieneAlquilado($producto)) {
-        echo "Error: el producto '{$producto->getTitulo()}' no está alquilado por el cliente '{$socio->nombre}'<br>";
-        return $this;
-    }
-
-    // Devolvemos el producto
-    $socio->devolver($producto);
-    $producto->alquilado = false;
-    echo "Producto '{$producto->getTitulo()}' devuelto por '{$socio->nombre}'<br>";
-
-    return $this;
-}
-
-public function devolverSocioProductos(int $numSocio, array $numerosProductos): self {
-    if (!isset($this->socios[$numSocio])) {
-        echo "Error: cliente con índice {$numSocio} no encontrado<br>";
-        return $this;
-    }
-
-    $socio = $this->socios[$numSocio];
-    $productosADevolver = [];
-
-    foreach ($numerosProductos as $indiceProducto) {
-        if (!isset($this->productos[$indiceProducto])) {
-            echo "Error: producto con índice {$indiceProducto} no encontrado<br>";
-            return $this;
+    public function devolverSocioProductos(int $numSocio, array $numerosProductos): self
+    {
+        if (!isset($this->socios[$numSocio])) {
+            throw new \Dwes\Videoclub\Exception\ClienteNoExisteException("Cliente con id {$numSocio} no encontrado");
         }
 
-        $producto = $this->productos[$indiceProducto];
+        $socio = $this->socios[$numSocio];
+        $productosADevolver = [];
 
-        if (!$socio->tieneAlquilado($producto)) {
-            echo "Error: el producto '{$producto->getTitulo()}' no está alquilado por '{$socio->nombre}'<br>";
-            return $this;
+        foreach ($numerosProductos as $indiceProducto) {
+            if (!isset($this->productos[$indiceProducto])) {
+                echo "Error: producto con índice {$indiceProducto} no encontrado<br>";
+                return $this;
+            }
+
+            $producto = $this->productos[$indiceProducto];
+
+            if (!$socio->tieneAlquilado($producto)) {
+                echo "Error: el producto '{$producto->getTitulo()}' no está alquilado por '{$socio->nombre}'<br>";
+                return $this;
+            }
+
+            $productosADevolver[] = $producto;
         }
 
-        $productosADevolver[] = $producto;
-    }
+        // Todos los productos son válidos, se devuelven
+        foreach ($productosADevolver as $producto) {
+            try {
+                $socio->devolver($producto);
+                echo "Producto '{$producto->getTitulo()}' devuelto por '{$socio->nombre}'<br>";
+            } catch (\Exception $e) { // Should catch specific but generic is fine for now
+                echo "Error: " . $e->getMessage() . "<br>";
+            }
+        }
 
-    // Todos los productos son válidos, se devuelven
-    foreach ($productosADevolver as $producto) {
-        $socio->devolver($producto);
-        $producto->alquilado = false;
-        echo "Producto '{$producto->getTitulo()}' devuelto por '{$socio->nombre}'<br>";
+        return $this;
     }
-
-    return $this;
-}
 
 
 }
